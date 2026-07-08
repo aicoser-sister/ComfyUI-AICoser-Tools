@@ -4,16 +4,16 @@ ComfyUI 自定义工具节点集合。
 
 ## 节点列表
 
-| 节点 | 说明 |
-|---|---|
-| BatchLoadImages | 批量加载图片，支持队列管理 |
-| PromptQueue | 提示词队列 |
-| AICoser_TextList | 文本列表 |
-| AICoser_SplitLines | 按行拆分文本 |
-| AICoser_PromptTemplate | 提示词模板，支持 `@N` 变量替换和嵌套 |
-| AICoser_TextBox | 纯文本输入框节点 |
-| AICoser_LoadVideoUpload | 视频上传与帧提取 |
-| AICoser_VideoInfo | 视频信息 |
+| 节点 | 显示名称 | 说明 |
+|---|---|---|
+| BatchLoadImages | ComfyUI-AICoser-BatchLoadImages | 批量加载图片，支持队列管理 |
+| PromptQueue | ComfyUI-AICoser-PromptQueue | 提示词队列 |
+| AICoser_TextList | ComfyUI-AICoser-TextList | 文本列表 |
+| AICoser_SplitLines | ComfyUI-AICoser-SplitLines | 按行拆分文本 |
+| AICoser_PromptTemplate | ComfyUI-AICoser Prompt Template | 提示词模板，支持 `@N` 变量替换和嵌套 |
+| AICoser_TextBox | ComfyUI-AICoser Text Box | 纯文本输入框节点 |
+| AICoser_LoadVideoUpload | ComfyUI-AICoser Load Video (Upload) | 视频上传与帧提取 |
+| AICoser_VideoInfo | ComfyUI-AICoser Video Info | 视频信息 |
 
 ## 安装
 
