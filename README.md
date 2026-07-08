@@ -30,3 +30,7 @@ ComfyUI 自定义工具节点集合。
 - text1 连接 TextBox 输入 `漂亮`
 - text2 连接 TextBox 输入 `红色`
 - 输出：`这个漂亮的女人，穿着红色的衣服`
+
+## 视频教程
+
+[ComfyUI全新视频上传节点：拖拽上传 · 进度条预览 ·Start/End 范围标记 · 自动清理](https://www.bilibili.com/video/BV1BbLj6HEhT/)
