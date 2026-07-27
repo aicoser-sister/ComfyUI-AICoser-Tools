@@ -1,6 +1,18 @@
-﻿from .batch_load_images import BatchLoadImages, PromptQueue, AICoser_TextList, AICoser_SplitLines, AICoser_PromptTemplate, AICoser_TextBox, AICoser_LoadVideoUpload, AICoser_VideoInfo
+﻿from .batch_load_images import BatchLoadImages, PromptQueue, AICoser_TextList, AICoser_SplitLines, AICoser_PromptTemplate, AICoser_TextBox, AICoser_LoadVideoUpload, AICoser_VideoInfo, _register_aicoser_routes
 
 WEB_DIRECTORY = "./web"
+
+from server import PromptServer
+
+_orig_setup = PromptServer.setup
+def _patched_setup(self, *args, **kwargs):
+    result = _orig_setup(self, *args, **kwargs)
+    try:
+        _register_aicoser_routes()
+    except Exception as e:
+        print(f"[AICoser] route registration failed: {e}")
+    return result
+PromptServer.setup = _patched_setup
 
 NODE_CLASS_MAPPINGS = {
     "BatchLoadImages": BatchLoadImages,

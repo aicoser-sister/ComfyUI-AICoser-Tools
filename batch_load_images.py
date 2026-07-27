@@ -135,7 +135,6 @@ def _read_video_metadata(video_path):
         cap.release()
 
 
-@PromptServer.instance.routes.get("/aicoser/video_metadata")
 async def aicoser_video_metadata(request):
     video = request.query.get("filename") or request.query.get("video") or ""
     if not video:
@@ -150,6 +149,13 @@ async def aicoser_video_metadata(request):
     except Exception as e:
         print(f"[AICoser_LoadVideoUpload] video metadata failed, video={video}, error={e}")
         return web.json_response({"error": str(e)}, status=500)
+
+
+def _register_aicoser_routes():
+    try:
+        PromptServer.instance.routes.get("/aicoser/video_metadata")(aicoser_video_metadata)
+    except Exception as e:
+        print(f"[AICoser] failed to register /aicoser/video_metadata route: {e}")
 
 
 def _delete_aicoser_uploaded_video(video, video_path):

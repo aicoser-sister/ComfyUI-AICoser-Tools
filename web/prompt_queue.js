@@ -1,5 +1,5 @@
-﻿import { app } from "../../../scripts/app.js";
-import { api } from "../../../scripts/api.js";
+import { app } from "../../scripts/app.js";
+import { api } from "../../scripts/api.js";
 
 const AICoser_PROMPTQUEUE_UI_VER = "2026-02-09-14";
 console.info("[PromptQueue] loaded", { ver: AICoser_PROMPTQUEUE_UI_VER });
@@ -1257,12 +1257,12 @@ function _isLikelyGlobalQueueButton(el) {
     const hay = `${txt} ${title} ${aria} ${role} ${id} ${cls}`.toLowerCase();
     if (hay.includes("queue prompt")) return true;
     if (hay.includes("queue") && hay.includes("prompt")) return true;
-    if (hay.includes("鎵ц") && (hay.includes("闃?) || hay.includes("queue"))) return true;
-    if (hay.includes("杩愯")) return true;
-    if (hay.includes("鍔犲叆闃熷垪")) return true;
-    if (hay.includes("鎺掗槦")) return true;
+    if (hay.includes("执行") && (hay.includes("队列") || hay.includes("queue"))) return true;
+    if (hay.includes("运行")) return true;
+    if (hay.includes("加入队列")) return true;
+    if (hay.includes("排队")) return true;
     if (hay.includes("enqueue")) return true;
-    if (hay.includes("prompt") && (hay.includes("run") || hay.includes("start") || hay.includes("鎵ц"))) return true;
+    if (hay.includes("prompt") && (hay.includes("run") || hay.includes("start") || hay.includes("执行"))) return true;
     if (id.toLowerCase().includes("queue")) return true;
     if (cls.toLowerCase().includes("queue")) return true;
     return false;
@@ -2162,30 +2162,30 @@ function createPromptQueueUI(node) {
     const container = document.createElement("div");
     container.dataset.AICoserPromptqueue = "1";
     container.style.cssText =
-        "width:100%;padding:8px;background:var(--comfy-menu-bg);border:1px solid var(--border-color);border-radius:6px;margin:5px 0;pointer-events:auto;";
+        "width:100%;padding:6px;background:var(--comfy-menu-bg);border:1px solid var(--border-color);border-radius:6px;margin:4px 0;pointer-events:auto;";
 
     const btnRow = document.createElement("div");
-    btnRow.style.cssText = "display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;";
+    btnRow.style.cssText = "display:flex;gap:5px;margin-bottom:6px;flex-wrap:wrap;align-items:stretch;";
 
     const mkBtn = (label) => {
         const b = document.createElement("button");
         b.textContent = label;
         b.style.cssText =
-            "padding:8px;background:var(--comfy-input-bg);color:var(--input-text);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;font-size:13px;";
+            "padding:5px 8px;background:var(--comfy-input-bg);color:var(--input-text);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;font-size:12px;";
         return b;
     };
 
-    const queueBtn = mkBtn("閫愭潯鍏ラ槦");
-    const queueOneBtn = mkBtn("鍏ラ槦褰撳墠");
-    const clearBtn = mkBtn("娓呯┖");
+    const queueBtn = mkBtn("逐条入队");
+    const queueOneBtn = mkBtn("入队当前");
+    const clearBtn = mkBtn("清空");
 
     const globalWrap = document.createElement("label");
     globalWrap.style.cssText =
-        "display:flex;align-items:center;gap:6px;padding:8px;background:var(--comfy-input-bg);color:var(--input-text);border:1px solid var(--border-color);border-radius:4px;font-size:13px;user-select:none;";
+        "display:flex;align-items:center;gap:5px;padding:5px 8px;background:var(--comfy-input-bg);color:var(--input-text);border:1px solid var(--border-color);border-radius:4px;font-size:12px;user-select:none;";
     const globalChk = document.createElement("input");
     globalChk.type = "checkbox";
     const globalTxt = document.createElement("span");
-    globalTxt.textContent = "鍏ㄥ眬鎵ц=閫愭潯鍏ラ槦";
+    globalTxt.textContent = "全局执行=逐条入队";
     globalWrap.appendChild(globalChk);
     globalWrap.appendChild(globalTxt);
 
@@ -2227,16 +2227,16 @@ function createPromptQueueUI(node) {
     backendHead.style.cssText = "display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:6px;";
 
     const backendTitle = document.createElement("div");
-    backendTitle.innerText = "鍚庣闃熷垪(/queue)";
+    backendTitle.innerText = "后端队列(/queue)";
 
     const backendBtns = document.createElement("div");
     backendBtns.style.cssText = "display:flex;gap:6px;align-items:center;";
 
     const backendRefreshBtn = document.createElement("button");
-    backendRefreshBtn.innerText = "鍒锋柊";
+    backendRefreshBtn.innerText = "刷新";
 
     const backendClearBtn = document.createElement("button");
-    backendClearBtn.innerText = "娓呯┖鍚庣闃熷垪";
+    backendClearBtn.innerText = "清空后端队列";
 
     backendBtns.appendChild(backendRefreshBtn);
     backendBtns.appendChild(backendClearBtn);
@@ -2260,14 +2260,14 @@ function createPromptQueueUI(node) {
 
     const listWrap = document.createElement("div");
     listWrap.style.cssText =
-        "display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;height:260px;overflow:auto;background:var(--comfy-input-bg);padding:6px;border-radius:4px;border:1px solid var(--border-color);";
+        "display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;min-height:96px;height:180px;overflow:auto;background:var(--comfy-input-bg);padding:5px;border-radius:4px;";
 
     const listBtnRow = document.createElement("div");
     listBtnRow.style.cssText = "display:flex;gap:6px;flex-wrap:wrap;";
-    const addItemBtn = mkBtn("鏂板涓€鏉?);
-    const importWholeTxtBtn = mkBtn("瀵煎叆鏁翠綋txt(鑷姩鎷嗗垎)");
-    const importSingleTxtBtn = mkBtn("瀵煎叆鍗曚釜txt");
-    const importFolderBtn = mkBtn("瀵煎叆鏂囦欢澶?);
+    const addItemBtn = mkBtn("新增一条");
+    const importWholeTxtBtn = mkBtn("导入整体txt(自动拆分)");
+    const importSingleTxtBtn = mkBtn("导入单个txt");
+    const importFolderBtn = mkBtn("导入文件夹");
     listBtnRow.appendChild(addItemBtn);
     listBtnRow.appendChild(importWholeTxtBtn);
     listBtnRow.appendChild(importSingleTxtBtn);
@@ -2290,12 +2290,12 @@ function createPromptQueueUI(node) {
 
             const ta = document.createElement("textarea");
             ta.value = String(text ?? "");
-            ta.placeholder = `鎻愮ず璇?#${idx + 1}锛堝厑璁哥┖琛岋級`;
+            ta.placeholder = `提示词#${idx + 1}（允许空行）`;
             ta.readOnly = !!readonly;
             ta.style.cssText =
                 "width:100%;min-height:96px;padding:6px;background:var(--comfy-input-bg);color:var(--input-text);border:1px solid var(--border-color);border-radius:4px;resize:vertical;";
 
-            const del = mkBtn("鍒犻櫎");
+            const del = mkBtn("删除");
             del.style.flex = "0 0 auto";
             del.style.padding = "6px 10px";
             del.style.display = readonly ? "none" : "";
@@ -2328,7 +2328,7 @@ function createPromptQueueUI(node) {
 
     const updateInfo = () => {
         const items = getPromptsFromWidget(node);
-        info.textContent = `鍏?${items.length} 鏉℃彁绀鸿瘝锛堝彲鎷栨嫿txt鍒版闈㈡澘锛?v${AICoser_PROMPTQUEUE_UI_VER}`;
+        info.textContent = `共${items.length} 条提示词（可拖拽txt到此面板）v${AICoser_PROMPTQUEUE_UI_VER}`;
     };
 
     const redraw = () => {
@@ -2366,9 +2366,9 @@ function createPromptQueueUI(node) {
             const rows = [];
             rows.push(
                 `<tr>` +
-                `<th style="text-align:left;border-bottom:1px solid var(--border-color);padding:4px;">鐘舵€?/th>` +
+                `<th style="text-align:left;border-bottom:1px solid var(--border-color);padding:4px;">状态</th>` +
                 `<th style="text-align:left;border-bottom:1px solid var(--border-color);padding:4px;">prompt_id</th>` +
-                `<th style="text-align:left;border-bottom:1px solid var(--border-color);padding:4px;">鍐呭(宸茬煡)</th>` +
+                `<th style="text-align:left;border-bottom:1px solid var(--border-color);padding:4px;">内容(已知)</th>` +
                 `</tr>`
             );
 
@@ -2638,7 +2638,7 @@ app.registerExtension({
             if (ui) {
                 this._promptQueueUI = ui;
                 this.addDOMWidget("prompt_queue", "customwidget", ui.container);
-                this.setSize([560, 420]);
+                this.setSize([720, 520]);
             }
 
             return r;
